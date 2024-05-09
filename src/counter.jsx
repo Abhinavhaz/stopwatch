@@ -1,8 +1,8 @@
-import React from "react";
-import { useEffect } from "react";
-import { useState } from "react";
+
+import React, { useEffect, useState } from "react";
+
 function Stopwatch() {
-  const [istrue, setIstrue] = useState(false);
+  const [isRunning, setIsRunning] = useState(false);
   const [count, setCount] = useState(0);
 
   const formatTime = (seconds) => {
@@ -12,36 +12,42 @@ function Stopwatch() {
   };
 
   const handleStart = () => {
-    setIstrue(!istrue);
+    setIsRunning(true);
   };
 
   const handleStop = () => {
+    setIsRunning(false);
+  };
+
+  const handleReset = () => {
     setCount(0);
-    setIstrue(false);
+    setIsRunning(false);
   };
 
   useEffect(() => {
     let interval;
-    if (istrue) {
+    if (isRunning) {
       interval = setInterval(() => {
-        setCount((prev) => prev + 1);
+        setCount((prevCount) => prevCount + 1);
       }, 1000);
     } else {
       clearInterval(interval);
     }
     return () => clearInterval(interval);
-  }, [istrue]);
+  }, [isRunning]);
 
   return (
     <div>
-      <h1> Counter </h1>
-      <p>Time :{formatTime(count)} </p>
+      <h1> Stopwatch </h1>
+      <p>Time: {formatTime(count)} </p>
       <div>
-        <button onClick={handleStart}> {istrue ? "Stop" : "Start"}</button>
-
-        <button onClick={handleStop}> Reset</button>
+        <button onClick={isRunning ? handleStop : handleStart}>
+          {isRunning ? "Stop" : "Start"}
+        </button>
+        <button onClick={handleReset}>Reset</button>
       </div>
     </div>
   );
 }
+
 export default Stopwatch;

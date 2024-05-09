@@ -4,7 +4,7 @@ import Stopwatch from './counter';
 function App() {
   return (
     <div className="App">
-      <Stopwatch/>
+      <Stopwatch />
     </div>
   );
 }
